@@ -49,3 +49,8 @@
 .cursor-crosshair::after {
   display: none;
 }
+
+.cursor-crosshair.hovering {
+  transform: translate(-50%, -50%) scale(2);
+  background-color: white; 
+}
