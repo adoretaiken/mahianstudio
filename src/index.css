@@ -54,3 +54,11 @@
   transform: translate(-50%, -50%) scale(2);
   background-color: white; 
 }
+
+html, body {
+  cursor: none;
+}
+
+a, button, [role="button"] {
+  cursor: none;
+}
