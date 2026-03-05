@@ -76,24 +76,37 @@ const PRODUCTS: Product[] = [
 const CustomCursor = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  // Add state to track if we are hovering over a button/link
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
+
+      // Check if the element under the cursor is a button, link, or has a pointer cursor
+      const target = e.target as HTMLElement;
+      const clickable = target.closest('button, a, [role="button"]');
+      setIsHovering(!!clickable);
     };
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
   return (
     <motion.div
-      className="cursor-crosshair"
-      style={{ x: mouseX, y: mouseY }}
+      // This template literal adds the 'hovering' class when isHovering is true
+      className={`cursor-crosshair ${isHovering ? 'hovering' : ''}`}
+      style={{ 
+        x: mouseX, 
+        y: mouseY,
+        translateX: '-50%', // Centers the circle exactly on the tip of the pointer
+        translateY: '-50%' 
+      }}
     />
   );
 };
-
 const DataCard = ({ product, x, y }: { product: Product; x: number; y: number }) => {
   return (
     <motion.div
